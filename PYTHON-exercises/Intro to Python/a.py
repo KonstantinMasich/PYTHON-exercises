@@ -1,4 +1,5 @@
 import random
+from operator import itemgetter
 
 # Q2
 print (" ++++++ Q2 ++++++ ")
@@ -25,12 +26,25 @@ print("Common elements are: ", sorted(res))
 
 # Q3
 # Please enter data in following format:
-# [name] [] []
+# [name] [age] [height]
 print (" ++++++ Q3 ++++++ ")
 res = [] # result list that holds all data
 usr_input = "default val"
 while usr_input:
 	usr_input = input("Enter data: ")
 	formatted_input = usr_input.split()
-	res.append(formatted_input)
-print (res)
+	if formatted_input:
+		res.append([    formatted_input[0],  \
+			    int(formatted_input[1]), \
+                            int(formatted_input[2])  \
+			   ])
+res.pop() # removing the last element because it's empty anyway
+# Sorting and printing results:
+print ("Tuples are sorted according to NAME:")
+print (sorted(res, key=itemgetter(0)))
+print ("Tuples are sorted according to AGE:")
+print (sorted(res, key=itemgetter(1)))
+print ("Tuples are sorted according to HEIGHT:")
+print (sorted(res, key=itemgetter(2)))
+
+
