@@ -1,0 +1,15 @@
+username,x,userid
+root,x,0
+daemon,x,1
+bin,x,2
+sys,x,3
+sync,x,4
+
+
+
+
+
+news,x,9
+uucp,x,10
+
+
