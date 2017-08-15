@@ -27,7 +27,7 @@ class Student(object):
             if g != -1:
                 gd.append([g, w])
             if g != 0:
-                submitted += 1    
+                submitted += 1   
 
         # 2. Checking if amount of submitted exercises is not less than
         # amout of mandatory exercises:
@@ -38,7 +38,7 @@ class Student(object):
         # 3. Sorting: getting <mandatory_num> best exercises
         gd = sorted(gd, reverse=True)[:mandatory_num]
         
-        print(gd)
+       # print(gd)
         
         # 4. Calculating academic mean of exercises:
         g = lambda x: x[0] * x[1]
@@ -48,13 +48,20 @@ class Student(object):
     def total_mean(self, weights, mandatory_num):
         # if grades mean is -1, project grade is the course grade..
         exc = self.grades_mean(weights[:-1], mandatory_num)
-        print(exc)
+       # print(exc)
         if exc == -1:
             return self.project
         elif exc == 0:
             return self.project * weights[-1]
         else:
             return exc*(1 - weights[-1]) + self.project*weights[-1]
+     
+    def update_ptors(self):
+        """ Updates amount of student's ptors """
+        self.ptors = 0
+        for g in grades:
+            if g == -1:
+                self.ptors += 1           
     
 #==============================================================================#
 #======================== GETTERS and SETTERS =================================#

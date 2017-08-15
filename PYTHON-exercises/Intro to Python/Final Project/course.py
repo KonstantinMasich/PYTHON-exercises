@@ -13,8 +13,11 @@ class Course(object):
         self.name     = name          # Course name
         self.students = students      # Students dictionary
         self.stud_no  = len(students) # Amount of Students enlisted to course
-        self.mand_no  = mandatory     # Amount of mandatory excercises
-        self.weights  = weights       # Weights for excercises and project
+        self.mand_no  = int(mandatory)# Amount of mandatory excercises
+        temp = []                     # Weights for excercises and project] 
+        for w in weights:
+            temp.append(float(w))
+        self.weights = temp    
      
     
     
@@ -44,12 +47,14 @@ class Course(object):
         for w in self.weights:
             print("Ex", index, ": weight =", w)
             index += 1
-        print("\n\nStudents data:")
+        print("\n\nStudents data:\n")
+        print("==============================================")
         for ID, student in self.students.items():
             print(student.get_name(), "(", ID, "):")
             print("Exercises mean is: ", student.grades_mean(self.weights, self.mand_no))
             print("Project grade  is: ", student.get_project())
             print("Total mean     is: ", student.total_mean(self.weights, self.mand_no))
+            print("==============================================")
             
             
 #==============================================================================#
@@ -69,4 +74,5 @@ class Course(object):
         
     def set_student_ex(self, stud_id, ex_no, newgrade):
         """ Changes student's exercise grade """
-        self.students.get(stud_id).set_exercise_grade(ex_no, newgrade)    
+        self.students.get(stud_id).set_exercise_grade(ex_no, newgrade)
+        self.students.get(stud_id).update_ptors()
