@@ -14,17 +14,13 @@ class Course(object):
         self.students = students      # Students dictionary
         self.stud_no  = len(students) # Amount of Students enlisted to course
         self.mand_no  = int(mandatory)# Amount of mandatory excercises
-        temp = []                     # Weights for excercises and project] 
+        self.weights  = weights       # Weights for excercises and project
+        """
+        temp = []                     # Weights for excercises and project
         for w in weights:
             temp.append(float(w))
-        self.weights = temp    
-     
-    
-    
-    
-    
-    
-    
+        self.weights = temp
+        """
         
     def print_all_grades(self):
         """
@@ -36,27 +32,48 @@ class Course(object):
         for k, v in self.students.items():
            print(k, v.get_name(), ":", v.get_grades(), "Project:", v.get_project())
         print("================================")
-    
-    
-    def print_course_data(self):
-        print("Course name:", self.name)
-        print("Amount of students:", self.stud_no)
-        print("Amount of mandatory excercises:", self.mand_no)
-        print("\nWeights:")
+   
+            
+    def get_course_data(self):
+        """ 
+        Returns string with course data: course name, amount of students and homeworks,
+        weights, and each student's means.     
+        """
+        s =  "Course name: " + self.name + "\n"
+        s += "Amount of students: " + str(self.stud_no) + "\n"
+        s += "Amount of mandatory excercises: " + str(self.mand_no) + "\n"
+        s += "\nWeights:\n"
         index = 1
         for w in self.weights:
-            print("Ex", index, ": weight =", w)
+            s += "Ex" + str(index) + " : weight = " + str(w) + "\n"
             index += 1
-        print("\n\nStudents data:\n")
-        print("==============================================")
+        s += "\n\nSTUDENTS DATA:\n\n"
+        s += "====================================\n"
         for ID, student in self.students.items():
-            print(student.get_name(), "(", ID, "):")
-            print("Exercises mean is: ", student.grades_mean(self.weights, self.mand_no))
-            print("Project grade  is: ", student.get_project())
-            print("Total mean     is: ", student.total_mean(self.weights, self.mand_no))
-            print("==============================================")
-            
-            
+            s += student.get_name() + " (" + ID + ")\n"
+            s += "    Exercises mean is: " + str(student.grades_mean(self.weights, self.mand_no)) + "\n"
+            s += "    Project grade  is: " + str(student.get_project()) + "\n"
+            s += "    Total mean     is: " + str(student.total_mean(self.weights, self.mand_no)) + "\n"
+            s += "====================================\n"
+        return s
+        
+    def print_course_data(self):
+        """ Prints course data on the screen """
+        print(self.get_course_data())
+        
+    def get_grades_data(self):
+        """ Returns data about students grades """
+        s = ""
+        for ID, student in self.students.items():
+            s += str(ID) + "," + student.get_name() + ","
+            s += ",".join(str(e) for e in student.get_grades()) + ","
+            s += str(student.get_project()) + "\n"
+        return s
+        
+    def print_grades_data(self):
+        """ Prints grades data on the screen """
+        print(self.get_grades_data())    
+
 #==============================================================================#
 #======================== GETTERS and SETTERS =================================#
 #==============================================================================#

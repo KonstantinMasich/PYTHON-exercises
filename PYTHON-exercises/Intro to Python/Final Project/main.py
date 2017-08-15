@@ -7,13 +7,17 @@ import fileworks
 import student
 import course
 
-GRADES_FILE_PATH   = "grades.csv"   # Default location of Grades file
-SETTINGS_FILE_PATH = "settings.csv" # Default location of Settings file
+GRADES_FILE    = "grades.csv"   # Default location of Grades file
+SETTINGS_FILE  = "settings.csv" # Default location of Settings file
+OUTFILE        = "output"       # Default location of Output file
+TESTFILE       = "gradeys.csv"  # Testfile
 
 # Choice constants (C is for Choice)
 C_SHOW_ALL_GRADES = "1"
 C_UPDATE_GRADES   = "2"
+C_PRINT_DATA      = "3"
 C_PROJECT         = "p"
+C_PTOR            = "f"
 C_QUIT            = "q"
 INT_QUIT          = -999
 INT_PROJECT       = -998
@@ -45,30 +49,31 @@ def show_menu():
     print("\n               Menu:")
     print("    1. Print all students' grades")
     print("    2. Update student's grades or ptors")
-    print("    3. Res")
+    print("    3. Print course data")
     print("    Enter 'q' to Quit.\n")        
 
       
 # 0. Loading Students' Grades and Settings from file
-gd = fileworks.read_csv(GRADES_FILE_PATH, "Grades") # grades dictionary
-settings = fileworks.read_csv(SETTINGS_FILE_PATH, "Settings")
+stud_dict = fileworks.read_csv(GRADES_FILE, "Grades") # grades dictionary
+settings  = fileworks.read_csv(SETTINGS_FILE, "Settings")
 # if Grades and/or Settings do not exist, exit the program
-if gd==None or settings==None:
+if stud_dict==None or settings==None:
     exit()
    
 # 1a Creating Students dictionary and service variables
-for k, v in gd.items():
+for k, v in stud_dict.items():
     name    = v[0]
     grades  = [int(x) for x in v[1:-1]]
     project = int(v[-1])
-    gd[k] = student.Student(name, grades, project)
+    stud_dict[k] = student.Student(name, grades, project)
 COURSE_NAME   = settings[0]   
 MANDATORY_NUM = int(settings[1])
 WEIGHTS = list(map(float, settings[2:]))
 
 
 # 1b. Creating a Course object
-course = course.Course(settings[0], gd, settings[1], settings[2:])
+course = course.Course(COURSE_NAME, stud_dict, MANDATORY_NUM, WEIGHTS)
+#course = course.Course(settings[0], gd, settings[1], settings[2:])
 
 
 # TESTED
@@ -142,12 +147,13 @@ def update_grades():
         return    
     elif choice == INT_PROJECT:
         # Changing PROJECT GRADE:
-        newgrade = input("Enter updated project grade: ")
+        newgrade = input("Enter updated project grade:")
         if is_non_negative_number(newgrade):
             newgrade = int(newgrade)
             if newgrade <= MAX_GRADE:
                 course.set_student_project(stud_id, newgrade)
                 print("Project grade updated.")
+                commit_changes()
                 return
             else:
                 print("Error: illegal grade!")
@@ -162,13 +168,21 @@ def update_grades():
             return
         # Changing EXERCISE GRADE:
         print("\nEnter updated grade for Ex", choice+1, ": ")
-        print("(grades: -1 for ptor, 0 for homework that was not submitted)")
+        print("(grades: enter '", C_PTOR,"' for ptor, 0 for homework that was not submitted)")
         newgrade = input("")
+        # Ptor case:
+        if newgrade == C_PTOR:
+            course.set_student_ex(stud_id, choice, -1)
+            print("Ptor granted.")
+            commit_changes()
+            return
+        # Non-ptor case:    
         if is_non_negative_number(newgrade):
             newgrade = int(newgrade)
             if newgrade <= MAX_GRADE:
                 course.set_student_ex(stud_id, choice, newgrade)
                 print("Exercise grade updated.")
+                commit_changes()
                 return
             else:
                 print("Error: illegal grade!")
@@ -177,16 +191,19 @@ def update_grades():
             print("Illegal input!")
         
             
-        
-    
+def commit_changes():
+    """ Commits changes into GRADES and OUTPUT files. """
+    # Commiting changes into GRADES file
+    if fileworks.write_to_file(GRADES_FILE, course.get_grades_data()) == False:
+        print("Error: failed to commit changes!")
+        return
+    # Commiting changes into OUTPUT file
+    if fileworks.write_to_file(OUTFILE, course.get_course_data()) == False:
+        print("Error: failed to commit changes!")
     
 
 # 1. Displaying menu and getting user's choice
 choice = ""
-
-choice = C_QUIT
-course.print_course_data()
-
 while choice != C_QUIT:
     show_menu()
     choice = input("")
@@ -196,5 +213,6 @@ while choice != C_QUIT:
     #============== UPDATE STUDENT'S GRADES =================#    
     elif choice == C_UPDATE_GRADES:
         update_grades()
-    elif choice == "3":
-        pass
+    #============== PRINT COURSE DATA =======================#    
+    elif choice == C_PRINT_DATA:
+        course.print_course_data()

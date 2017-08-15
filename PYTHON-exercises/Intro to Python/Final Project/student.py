@@ -37,12 +37,12 @@ class Student(object):
             
         # 3. Sorting: getting <mandatory_num> best exercises
         gd = sorted(gd, reverse=True)[:mandatory_num]
-        
-       # print(gd)
+        # print(gd)
         
         # 4. Calculating academic mean of exercises:
         g = lambda x: x[0] * x[1]
-        return sum([g(x) for x in gd]) / sum([x[1] for x in gd])
+        res = sum([g(x) for x in gd]) / sum([x[1] for x in gd])
+        return round(res,2)
         
         
     def total_mean(self, weights, mandatory_num):
@@ -52,14 +52,16 @@ class Student(object):
         if exc == -1:
             return self.project
         elif exc == 0:
-            return self.project * weights[-1]
+            res = self.project * weights[-1]
+            return round(res,2)
         else:
-            return exc*(1 - weights[-1]) + self.project*weights[-1]
+            res = exc*(1 - weights[-1]) + self.project*weights[-1]
+            return round(res,2)
      
     def update_ptors(self):
         """ Updates amount of student's ptors """
         self.ptors = 0
-        for g in grades:
+        for g in self.grades:
             if g == -1:
                 self.ptors += 1           
     

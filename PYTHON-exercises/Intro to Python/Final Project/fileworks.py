@@ -1,10 +1,20 @@
 import csv
 
-def commit_changes(filepath):
+def write_to_file(f, data):
     """
-    Commits changes by writing them to specified file.
+    Overwrites data into specified file.
+    Returns True if write attempt was successful, False otherwise.
     """
-    pass
+    try:
+        with open(f, 'a') as out:
+            out.seek(0)
+            out.truncate()
+            out.write(data)
+        out.close()    
+        return True
+    except Exception as e:
+        print(type(e), "\n", str(e))
+        return False    
     
 
 def read_csv(filepath, filetype):
