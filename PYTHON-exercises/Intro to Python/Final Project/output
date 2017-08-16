@@ -1,5 +1,5 @@
 Course name: Introduction to Python
-Amount of students: 6
+Amount of students: 7
 Amount of mandatory excercises: 8
 
 Weights:
@@ -19,33 +19,38 @@ Ex11 : weight = 0.4
 STUDENTS DATA:
 
 ====================================
-John Doe (647836448)
-    Exercises mean is: 59.06
-    Project grade  is: 99
-    Total mean     is: 75.04
+Kera Loe (237462738)
+    Exercises mean is: 100.0
+    Project grade  is: 100
+    Total mean     is: 100.0
 ====================================
-Dany Moe (583948593)
-    Exercises mean is: 71.94
-    Project grade  is: 98
-    Total mean     is: 82.36
+Mary Koe (832749837)
+    Exercises mean is: 0
+    Project grade  is: 100
+    Total mean     is: 40.0
+====================================
+John Doe (647836448)
+    Exercises mean is: 64.56
+    Project grade  is: 99
+    Total mean     is: 78.34
 ====================================
 Anny Zoe (583958490)
     Exercises mean is: 68.38
     Project grade  is: 99
     Total mean     is: 80.63
 ====================================
-Sara Foe (237847648)
-    Exercises mean is: -1
-    Project grade  is: 80
-    Total mean     is: 80
-====================================
 Wily Boe (983457349)
     Exercises mean is: 20.0
     Project grade  is: 50
     Total mean     is: 32.0
 ====================================
-Mary Koe (832749837)
-    Exercises mean is: 0
-    Project grade  is: 100
-    Total mean     is: 40.0
+Dany Moe (583948593)
+    Exercises mean is: 71.94
+    Project grade  is: 98
+    Total mean     is: 82.36
+====================================
+Sara Foe (237847648)
+    Exercises mean is: -1
+    Project grade  is: 80
+    Total mean     is: 80
 ====================================

@@ -13,7 +13,7 @@ class Student(object):
                 self.ptors += 1
     
     def grades_mean(self, weights, mandatory_num):
-        "Calculates academical mean of exercise grades (project not included)"
+        """Calculates academical mean of exercise grades (project not included)"""
         # 0. Recalculating amount of mandatory exercises:
         mandatory_num = mandatory_num - self.ptors
         if mandatory_num <= 0:

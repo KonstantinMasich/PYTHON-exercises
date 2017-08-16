@@ -35,7 +35,7 @@ class Course(object):
    
             
     def get_course_data(self):
-        """ 
+        """
         Returns string with course data: course name, amount of students and homeworks,
         weights, and each student's means.     
         """
